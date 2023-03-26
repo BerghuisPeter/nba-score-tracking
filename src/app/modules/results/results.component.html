@@ -1,0 +1,7 @@
+<p>results works!</p>
+<div *ngIf="$teamCode | async as code">
+  <h3>{{code}}</h3>
+</div>
+<a [routerLink]="['']">
+  <button>go back</button>
+</a>

@@ -1,3 +1,3 @@
 export enum APP_PATHS {
-  RESULTS = 'results/{teamCode}'
+  RESULTS = 'results'
 }
