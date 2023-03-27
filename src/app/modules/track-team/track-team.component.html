@@ -11,31 +11,7 @@
     </button>
   </div>
   <div class="mt-5 flex flex-wrap around justify-around gap-4">
-    <div *ngFor="let trackedTeam of trackedTeams" class="flex flex-col p-3 border border-gray-400">
-      <div class="flex justify-between items-center">
-        <h2 class="text-xl font-bold">{{ trackedTeam.full_name }} [{{ trackedTeam.abbreviation }}]</h2>
-        <button>X</button>
-      </div>
-      <p class="mt-2">
-        {{ trackedTeam.conference | titlecase }}ern conference
-      </p>
-      <div class="mt-2 flex border-t-2 border-gray-400">
-        <div class="flex flex-col results">
-          <span>Results of past 12 days:</span>
-          <span>W L W L L W</span>
-          <span>Avg pts scored: </span>
-          <span>Avg pts conceded: </span>
-        </div>
-        <div class="logo">
-          <img alt="logo" class="object-scale-down" src="https://interstate21.com/nba-logos/SAC.png">
-        </div>
-      </div>
-      <a [routerLink]="['/results', 'FMA']" class="w-fit">
-        <button class="px-4 py-2 font-semibold text-sm bg-green-700 text-white shadow-sm">
-          See game results >>
-        </button>
-      </a>
-    </div>
+      <app-team *ngFor="let trackedTeam of trackedTeams; trackBy: trackByFn" [team]="trackedTeam"></app-team>
   </div>
 </ng-container>
 

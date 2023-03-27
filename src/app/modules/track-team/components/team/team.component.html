@@ -1,0 +1,36 @@
+<div class="flex flex-col p-3 border border-gray-400">
+  <ng-container *ngIf="$gameDetails | async as gameDetails; else gameDetailsLoading">
+    <div class="flex justify-between items-center">
+      <h2 class="text-xl font-bold">{{ team.full_name }} [{{ team.abbreviation }}]</h2>
+      <button>X</button>
+    </div>
+    <p class="mt-2">
+      {{ team.conference | titlecase }}ern conference
+    </p>
+    <div class="mt-2 flex border-t-2 border-gray-400">
+      <div class="flex flex-col results">
+        <span>Results of past 12 days:</span>
+        <div>
+          <span *ngFor="let game of gameDetails.data">
+            {{
+            playsHome(game) ?
+              game.home_team_score > game.visitor_team_score ? 'W' : 'L'
+              : game.home_team_score < game.visitor_team_score ? 'W' : 'L'
+            }}
+          </span>
+        </div>
+        <span>Avg pts scored: {{ averagePointsScored | number: '1.0-0' }} </span>
+        <span>Avg pts conceded: {{ averagePointsConceded | number: '1.0-0' }} </span>
+      </div>
+      <img alt="logo" class="logo" src='https://interstate21.com/nba-logos/{{team.abbreviation}}.png'>
+    </div>
+    <a [routerLink]="['/results', team.abbreviation]" class="w-fit">
+      <button class="px-4 py-2 font-semibold text-sm bg-green-700 text-white shadow-sm">
+        See game results >>
+      </button>
+    </a>
+  </ng-container>
+  <ng-template #gameDetailsLoading>
+    Getting latest team results for {{ team.name }}...
+  </ng-template>
+</div>
