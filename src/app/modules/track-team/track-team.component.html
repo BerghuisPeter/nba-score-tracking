@@ -1,7 +1,44 @@
-<p>track-team works!</p>
-<a [routerLink]="['/results', 'FMA']">
-  <button
-    class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-    go to FMA results
-  </button>
-</a>
+<ng-container *ngIf="$teams | async">
+  <div class="flex gap-3">
+    <select #teamSelect class="pl-2" id="teamSelect">
+      <option *ngFor="let team of allTeams" [value]="team.id">{{ team.full_name }}</option>
+    </select>
+    <span>{{allTeams.length}}</span>
+    <button (click)="trackTeam(teamSelect.value)"
+            class="px-4 py-2 font-semibold text-sm bg-sky-500 text-white shadow-sm"
+            id="trackBtn">
+      Track team
+    </button>
+  </div>
+  <div class="mt-5 flex flex-wrap around justify-around gap-4">
+    <div *ngFor="let trackedTeam of trackedTeams" class="flex flex-col p-3 border border-gray-400">
+      <div class="flex justify-between items-center">
+        <h2 class="text-xl font-bold">{{ trackedTeam.full_name }} [{{ trackedTeam.abbreviation }}]</h2>
+        <button>X</button>
+      </div>
+      <p class="mt-2">
+        {{ trackedTeam.conference | titlecase }}ern conference
+      </p>
+      <div class="mt-2 flex border-t-2 border-gray-400">
+        <div class="flex flex-col results">
+          <span>Results of past 12 days:</span>
+          <span>W L W L L W</span>
+          <span>Avg pts scored: </span>
+          <span>Avg pts conceded: </span>
+        </div>
+        <div class="logo">
+          <img alt="logo" class="object-scale-down" src="https://interstate21.com/nba-logos/SAC.png">
+        </div>
+      </div>
+      <a [routerLink]="['/results', 'FMA']" class="w-fit">
+        <button class="px-4 py-2 font-semibold text-sm bg-green-700 text-white shadow-sm">
+          See game results >>
+        </button>
+      </a>
+    </div>
+  </div>
+</ng-container>
+
+<ng-template>
+  Loading Teams...
+</ng-template>

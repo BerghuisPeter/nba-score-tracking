@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { NbaService } from "../shared/services/nba.service";
+import { Team } from "../shared/models/team.model";
+import { Observable, tap } from "rxjs";
 
 @Component({
   selector: 'app-track-team',
@@ -6,5 +9,29 @@ import { Component } from '@angular/core';
   styleUrls: ['./track-team.component.scss']
 })
 export class TrackTeamComponent {
+
+  $teams: Observable<Team[]>;
+  allTeams: Team[];
+  trackedTeams: Team[];
+
+  constructor(public nbaService: NbaService) {
+    this.allTeams = [];
+    this.trackedTeams = [];
+
+    this.$teams = this.nbaService.getAllTeams().pipe(
+      tap((response: Team[]) => {
+          this.allTeams = response;
+          // TODO remove once developpment complete
+          this.trackedTeams = [this.allTeams[0]];
+        }
+      )
+    );
+  }
+
+  public trackTeam(teamId: string) {
+    const selectedTeam = this.allTeams.find(team => team.id === +teamId);
+    if (this.trackedTeams)
+      this.trackedTeams.push(selectedTeam!);
+  }
 
 }
