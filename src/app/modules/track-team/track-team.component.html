@@ -1,24 +1,18 @@
-<!--<ng-container *ngIf="$teams | async; else loading">-->
-  <div class="flex gap-3">
-    <select #teamSelect class="pl-2" id="teamSelect">
-      <option *ngFor="let team of nbaService.allTeams; trackBy: trackByFn"
-              [value]="team.id">{{ team.full_name }}</option>
-    </select>
-    <button (click)="trackTeam(teamSelect.value)"
-            class="px-4 py-2 font-semibold text-sm bg-sky-500 text-white shadow-sm"
-            id="trackBtn">
-      Track team
-    </button>
-  </div>
+<div class="flex gap-3">
+  <select #teamSelect class="pl-2" id="teamSelect">
+    <option *ngFor="let team of nbaService.allTeams; trackBy: trackByFn"
+            [value]="team.id">{{ team.full_name }}</option>
+  </select>
+  <button (click)="trackTeam(teamSelect.value)"
+          class="px-4 py-2 font-semibold text-sm bg-sky-500 text-white shadow-sm"
+          id="trackBtn">
+    Track team
+  </button>
+</div>
 <div class="mt-5 flex flex-wrap around justify-around gap-4">
   <app-team-card
     (unTrackTeam)="unTrackTeam(index)"
-    *ngFor="let trackedTeam of trackedTeams; trackBy: trackByFn; let index = index"
+    *ngFor="let trackedTeam of nbaService.trackedTeams; trackBy: trackByFn; let index = index"
     [team]="trackedTeam">
   </app-team-card>
 </div>
-<!--</ng-container>-->
-
-<!--<ng-template #loading>-->
-<!--  Loading Teams...-->
-<!--</ng-template>-->

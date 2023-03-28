@@ -13,6 +13,7 @@ export class NbaService {
 
   private baseUrl = 'https://free-nba.p.rapidapi.com';
   public allTeams: Team[];
+  public trackedTeams: Team[];
 
   private httpOptions = {
     headers: new HttpHeaders({
@@ -23,6 +24,7 @@ export class NbaService {
 
   constructor(private httpClient: HttpClient) {
     this.allTeams = [];
+    this.trackedTeams = [];
   }
 
   public getAllTeams(): Observable<Team[]> {

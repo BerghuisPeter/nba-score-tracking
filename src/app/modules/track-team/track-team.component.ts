@@ -9,19 +9,16 @@ import { Team } from "../shared/models/team.model";
 })
 export class TrackTeamComponent {
 
-  trackedTeams: Team[];
-
   constructor(public nbaService: NbaService) {
-    this.trackedTeams = [];
   }
 
   public trackTeam(teamId: string) {
     const selectedTeam = this.nbaService.allTeams.find(team => team.id === +teamId);
-    this.trackedTeams.push(selectedTeam!);
+    this.nbaService.trackedTeams.push(selectedTeam!);
   }
 
   public unTrackTeam(index: number) {
-    this.trackedTeams.splice(index, 1);
+    this.nbaService.trackedTeams.splice(index, 1);
   }
 
   trackByFn(index: number, team: Team) {
