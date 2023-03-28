@@ -6,12 +6,12 @@ import { GameSearch } from "../../../shared/models/game-search.model";
 import { Game } from "../../../shared/models/game.model";
 
 @Component({
-  selector: 'app-team',
-  templateUrl: './team.component.html',
-  styleUrls: ['./team.component.scss'],
+  selector: 'app-team-card',
+  templateUrl: './team-card.component.html',
+  styleUrls: ['./team-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TeamComponent implements OnInit {
+export class TeamCardComponent implements OnInit {
 
   $gameDetails!: Observable<GameSearch>;
   pastResults: boolean[];

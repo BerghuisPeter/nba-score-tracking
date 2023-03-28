@@ -11,7 +11,7 @@
     </button>
   </div>
   <div class="mt-5 flex flex-wrap around justify-around gap-4">
-      <app-team *ngFor="let trackedTeam of trackedTeams; trackBy: trackByFn" [team]="trackedTeam"></app-team>
+      <app-team-card *ngFor="let trackedTeam of trackedTeams; trackBy: trackByFn" [team]="trackedTeam"></app-team-card>
   </div>
 </ng-container>
 
