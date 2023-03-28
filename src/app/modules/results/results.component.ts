@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from "@angular/router";
-import { Observable, of, switchMap } from "rxjs";
+import { Observable, switchMap, tap } from "rxjs";
+import { NbaService } from "../shared/services/nba.service";
+import { Team } from "../shared/models/team.model";
+import { Game } from "../shared/models/game.model";
 
 @Component({
   selector: 'app-results',
@@ -9,19 +12,31 @@ import { Observable, of, switchMap } from "rxjs";
 })
 export class ResultsComponent implements OnInit {
 
-  $teamCode: Observable<any> | undefined;
+  $gamesResults!: Observable<Game[]>;
+  teamCode!: string;
+  team!: Team;
 
   constructor(
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private nbaService: NbaService
   ) {
   }
 
   ngOnInit() {
-    this.$teamCode = this.route.paramMap.pipe(
+    this.$gamesResults = this.route.paramMap.pipe(
       switchMap((params: ParamMap) => {
-        console.log(params.get('teamCode'))
+        this.teamCode = params.get('teamCode')!;
         // return api call to nba teams here
-        return of(params.get('teamCode'));
+        // return of(this.teamCode);
+        return this.nbaService.getLatestGameResults(+this.teamCode).pipe(
+          tap((games: Game[]) => {
+            if (games[0].home_team.id === +this.teamCode) {
+              this.team = games[0].home_team;
+            } else {
+              this.team = games[0].visitor_team;
+            }
+          })
+        );
       })
     );
   }

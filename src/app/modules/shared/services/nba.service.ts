@@ -4,6 +4,7 @@ import { map, Observable } from "rxjs";
 import { TeamSearch } from "../models/team-search.model";
 import { Team } from "../models/team.model";
 import { GameSearch } from "../models/game-search.model";
+import { Game } from "../models/game.model";
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +30,7 @@ export class NbaService {
     );
   }
 
-  public getLatestGameResults(teamId: number): Observable<GameSearch> {
+  public getLatestGameResults(teamId: number): Observable<Game[]> {
     const today = new Date();
     let last12Days = ``;
     for (let i = 1; i <= 12; i++) {
@@ -37,6 +38,8 @@ export class NbaService {
       const formattedDay = day.toISOString().substring(0, 10);
       last12Days += `dates[]=${formattedDay}&`;
     }
-    return this.httpClient.get<any>(`${this.baseUrl}/games?page=0&${last12Days}&per_page=12&team_ids[]=${teamId}`, this.httpOptions);
+    return this.httpClient.get<any>(`${this.baseUrl}/games?page=0&${last12Days}&per_page=12&team_ids[]=${teamId}`, this.httpOptions).pipe(
+      map((responses: GameSearch) => responses.data)
+    );
   }
 }

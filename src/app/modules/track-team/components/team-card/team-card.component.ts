@@ -17,7 +17,7 @@ export class TeamCardComponent implements OnInit {
   @Input() team!: Team;
   @Output() unTrackTeam: EventEmitter<void>;
 
-  public $gameDetails!: Observable<GameSearch>;
+  public $gameDetails!: Observable<Game[]>;
   public pastResults: boolean[];
   public averagePointsScored!: number;
   public averagePointsConceded!: number;
@@ -32,8 +32,8 @@ export class TeamCardComponent implements OnInit {
 
   ngOnInit(): void {
     this.$gameDetails = this.nbaService.getLatestGameResults(this.team.id).pipe(
-      tap((gameSearch: GameSearch) => {
-        const points = gameSearch.data.reduce((acc, game) => {
+      tap((games: Game[]) => {
+        const points = games.reduce((acc, game) => {
           if (this.playsHome(game)) {
             acc.scored += game.home_team_score;
             acc.conceded += game.visitor_team_score;
@@ -46,8 +46,8 @@ export class TeamCardComponent implements OnInit {
           return acc;
         }, { scored: 0, conceded: 0 });
 
-        this.averagePointsScored = points.scored / gameSearch.data.length;
-        this.averagePointsConceded = points.conceded / gameSearch.data.length;
+        this.averagePointsScored = points.scored / games.length;
+        this.averagePointsConceded = points.conceded / games.length;
       })
     )
     ;
