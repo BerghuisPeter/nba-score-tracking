@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output
 import { Team } from "../../../shared/models/team.model";
 import { NbaService } from "../../../shared/services/nba.service";
 import { Observable, tap } from "rxjs";
-import { GameSearch } from "../../../shared/models/game-search.model";
 import { Game } from "../../../shared/models/game.model";
 import { APP_PATHS } from "../../../shared/models/app-paths.model";
 

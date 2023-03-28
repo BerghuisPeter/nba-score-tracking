@@ -1,2 +1,3 @@
 <h1 class="text-3xl mb-5 font-bold">{{title}}</h1>
+<div *ngIf="isLoading$ | async" class="loader">Loading...</div>
 <router-outlet></router-outlet>

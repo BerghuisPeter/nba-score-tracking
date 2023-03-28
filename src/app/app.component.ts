@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { LoaderService } from "./modules/shared/services/loader.service";
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'NBA Score Tracking App';
+  isLoading$ = this.loaderService.isLoading$;
+
+  constructor(private loaderService: LoaderService) {
+  }
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { map, Observable } from "rxjs";
+import { map, Observable, tap } from "rxjs";
 import { TeamSearch } from "../models/team-search.model";
 import { Team } from "../models/team.model";
 import { GameSearch } from "../models/game-search.model";
@@ -12,6 +12,7 @@ import { Game } from "../models/game.model";
 export class NbaService {
 
   private baseUrl = 'https://free-nba.p.rapidapi.com';
+  public allTeams: Team[];
 
   private httpOptions = {
     headers: new HttpHeaders({
@@ -21,12 +22,14 @@ export class NbaService {
   };
 
   constructor(private httpClient: HttpClient) {
+    this.allTeams = [];
   }
 
   public getAllTeams(): Observable<Team[]> {
     const url = `${this.baseUrl}/teams`;
     return this.httpClient.get<TeamSearch>(url, this.httpOptions).pipe(
-      map((responses: TeamSearch) => responses.data)
+      map((responses: TeamSearch) => responses.data),
+      tap((teams: Team[]) => this.allTeams = teams)
     );
   }
 

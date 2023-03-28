@@ -13,7 +13,6 @@ import { Game } from "../shared/models/game.model";
 export class ResultsComponent implements OnInit {
 
   $gamesResults!: Observable<Game[]>;
-  teamCode!: string;
   team!: Team;
 
   constructor(
@@ -25,12 +24,11 @@ export class ResultsComponent implements OnInit {
   ngOnInit() {
     this.$gamesResults = this.route.paramMap.pipe(
       switchMap((params: ParamMap) => {
-        this.teamCode = params.get('teamCode')!;
-        // return api call to nba teams here
-        // return of(this.teamCode);
-        return this.nbaService.getLatestGameResults(+this.teamCode).pipe(
+        const teamCode = params.get('teamCode')!;
+        const team = this.nbaService.allTeams.find(team => team.abbreviation === teamCode)!;
+        return this.nbaService.getLatestGameResults(team.id).pipe(
           tap((games: Game[]) => {
-            if (games[0].home_team.id === +this.teamCode) {
+            if (games[0].home_team.id === +teamCode) {
               this.team = games[0].home_team;
             } else {
               this.team = games[0].visitor_team;
