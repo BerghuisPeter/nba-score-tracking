@@ -23,7 +23,7 @@ export class TrackTeamComponent {
       tap((response: Team[]) => {
           this.allTeams = response;
           // TODO remove once developpment complete
-          this.trackedTeams = [this.allTeams[0]];
+          this.trackedTeams = [this.allTeams[1]];
         }
       )
     );
@@ -32,6 +32,10 @@ export class TrackTeamComponent {
   public trackTeam(teamId: string) {
     const selectedTeam = this.allTeams.find(team => team.id === +teamId);
     this.trackedTeams.push(selectedTeam!);
+  }
+
+  public unTrackTeam(index: number) {
+    this.trackedTeams.splice(index, 1);
   }
 
   trackByFn(index: number, team: Team) {

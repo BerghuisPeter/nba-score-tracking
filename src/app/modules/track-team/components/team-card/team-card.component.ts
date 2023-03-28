@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Team } from "../../../shared/models/team.model";
 import { NbaService } from "../../../shared/services/nba.service";
 import { Observable, tap } from "rxjs";
 import { GameSearch } from "../../../shared/models/game-search.model";
 import { Game } from "../../../shared/models/game.model";
+import { APP_PATHS } from "../../../shared/models/app-paths.model";
 
 @Component({
   selector: 'app-team-card',
@@ -13,15 +14,20 @@ import { Game } from "../../../shared/models/game.model";
 })
 export class TeamCardComponent implements OnInit {
 
-  $gameDetails!: Observable<GameSearch>;
-  pastResults: boolean[];
-  averagePointsScored: number | undefined;
-  averagePointsConceded: number | undefined;
-
   @Input() team!: Team;
+  @Output() unTrackTeam: EventEmitter<void>;
+
+  public $gameDetails!: Observable<GameSearch>;
+  public pastResults: boolean[];
+  public averagePointsScored!: number;
+  public averagePointsConceded!: number;
+  public lastGamesWon: boolean[];
+  public APP_PATHS = APP_PATHS;
 
   constructor(private nbaService: NbaService) {
+    this.unTrackTeam = new EventEmitter<void>();
     this.pastResults = [];
+    this.lastGamesWon = [];
   }
 
   ngOnInit(): void {
@@ -31,12 +37,14 @@ export class TeamCardComponent implements OnInit {
           if (this.playsHome(game)) {
             acc.scored += game.home_team_score;
             acc.conceded += game.visitor_team_score;
+            this.lastGamesWon.push(game.home_team_score > game.visitor_team_score);
           } else {
             acc.scored += game.visitor_team_score;
             acc.conceded += game.home_team_score;
+            this.lastGamesWon.push(game.home_team_score < game.visitor_team_score);
           }
           return acc;
-        }, { scored: 0, conceded: 0, win: true });
+        }, { scored: 0, conceded: 0 });
 
         this.averagePointsScored = points.scored / gameSearch.data.length;
         this.averagePointsConceded = points.conceded / gameSearch.data.length;
@@ -45,7 +53,11 @@ export class TeamCardComponent implements OnInit {
     ;
   }
 
-  public playsHome(game: Game): boolean {
+  public removeTrackedTeam() {
+    this.unTrackTeam.emit();
+  }
+
+  private playsHome(game: Game): boolean {
     return game.home_team.id === this.team.id;
   }
 

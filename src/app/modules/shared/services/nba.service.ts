@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { forkJoin, map, Observable, switchMap } from "rxjs";
+import { map, Observable } from "rxjs";
 import { TeamSearch } from "../models/team-search.model";
 import { Team } from "../models/team.model";
 import { GameSearch } from "../models/game-search.model";
@@ -25,22 +25,7 @@ export class NbaService {
   public getAllTeams(): Observable<Team[]> {
     const url = `${this.baseUrl}/teams`;
     return this.httpClient.get<TeamSearch>(url, this.httpOptions).pipe(
-      switchMap((firstPageItems: TeamSearch) => {
-        const pageRequests = [];
-
-        for (let i = 1; i < firstPageItems.meta.total_pages; i++) {
-          const request = this.httpClient.get<TeamSearch>(`${url}?page=${i + 1}`, this.httpOptions);
-          pageRequests.push(request);
-        }
-
-        return forkJoin(pageRequests).pipe(
-          map((responses: TeamSearch[]) => {
-            const allTeams: Team[] = [...firstPageItems.data];
-            responses.forEach(response => allTeams.push(...response.data));
-            return allTeams;
-          })
-        );
-      }),
+      map((responses: TeamSearch) => responses.data)
     );
   }
 

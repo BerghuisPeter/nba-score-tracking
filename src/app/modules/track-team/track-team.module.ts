@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { TrackTeamComponent } from './track-team.component';
 import { RouterModule } from "@angular/router";
 import { TeamCardComponent } from "./components/team-card/team-card.component";
+import { LastGamesComponent } from './components/last-games/last-games.component';
 
 const routes = [
   {
@@ -14,7 +15,8 @@ const routes = [
 @NgModule({
   declarations: [
     TrackTeamComponent,
-    TeamCardComponent
+    TeamCardComponent,
+    LastGamesComponent
   ],
   imports: [
     CommonModule,

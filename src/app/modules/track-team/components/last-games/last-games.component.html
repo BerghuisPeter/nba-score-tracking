@@ -1,0 +1,6 @@
+<div class="flex gap-2">
+  <div *ngFor="let gameWon of lastGamesWon" [ngClass]="gameWon ? 'bg-green-600' : 'bg-red-600'"
+       class="rounded-full px-1 text-white">
+    {{ gameWon ? 'W' : 'L' }}
+  </div>
+</div>
