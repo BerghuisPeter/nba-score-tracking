@@ -12,8 +12,8 @@ import { Game } from "../shared/models/game.model";
 })
 export class ResultsComponent implements OnInit {
 
-  $gamesResults!: Observable<Game[]>;
-  team!: Team;
+  public $gamesResults!: Observable<Game[]>;
+  public team!: Team;
 
   constructor(
     private route: ActivatedRoute,
@@ -22,6 +22,7 @@ export class ResultsComponent implements OnInit {
   }
 
   ngOnInit() {
+    // gets the teamCode from the url, uses it to get the Team saved in the service, and use that to get the latest games.
     this.$gamesResults = this.route.paramMap.pipe(
       switchMap((params: ParamMap) => {
         const teamCode = params.get('teamCode')!;

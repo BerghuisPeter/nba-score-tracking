@@ -11,16 +11,9 @@
       {{ team.conference | titlecase }}ern conference
     </p>
     <div class="mt-2 pt-3 flex border-t-2 border-gray-400">
-      <div class="flex flex-col results">
-        <span>Results of past 12 days:</span>
-        <app-last-games [lastGamesWon]="lastGamesWon"></app-last-games>
-        <div>Avg pts scored:
-          <span class="font-bold">{{ averagePointsScored | number: '1.0-0' }}</span>
-        </div>
-        <div>Avg pts conceded:
-          <span class="font-bold">{{ averagePointsConceded | number: '1.0-0' }}</span>
-        </div>
-      </div>
+      <app-last-games [averagePointsConceded]="averagePointsConceded"
+                      [averagePointsScored]="averagePointsScored"
+                      [lastGamesWon]="lastGamesWon"></app-last-games>
       <img alt="logo" class="logo" src='https://interstate21.com/nba-logos/{{team.abbreviation}}.png'>
     </div>
     <a [routerLink]="[APP_PATHS.RESULTS, team.abbreviation]" class="w-fit">

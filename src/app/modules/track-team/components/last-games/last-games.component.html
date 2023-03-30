@@ -1,6 +1,15 @@
-<div class="flex gap-2">
-  <div *ngFor="let gameWon of lastGamesWon" [ngClass]="gameWon ? 'bg-green-600' : 'bg-red-600'"
-       class="rounded-full px-1 text-white">
-    {{ gameWon ? 'W' : 'L' }}
+<div class="flex flex-col results">
+  <span>Results of past 12 days:</span>
+  <div class="flex gap-2">
+    <div *ngFor="let gameWon of lastGamesWon" [ngClass]="gameWon ? 'bg-green-600' : 'bg-red-600'"
+         class="rounded-full px-1 text-white">
+      {{ gameWon ? 'W' : 'L' }}
+    </div>
+  </div>
+  <div>Avg pts scored:
+    <span class="font-bold">{{ averagePointsScored | number: '1.0-0' }}</span>
+  </div>
+  <div>Avg pts conceded:
+    <span class="font-bold">{{ averagePointsConceded | number: '1.0-0' }}</span>
   </div>
 </div>

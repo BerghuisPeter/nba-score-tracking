@@ -9,5 +9,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 export class LastGamesComponent {
 
   @Input() lastGamesWon!: boolean[];
+  @Input() averagePointsScored!: number;
+  @Input() averagePointsConceded!: number;
 
 }
