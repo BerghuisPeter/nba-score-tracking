@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NbaService } from "../shared/services/nba.service";
 import { Team } from "../shared/models/team.model";
 
@@ -7,21 +7,27 @@ import { Team } from "../shared/models/team.model";
   templateUrl: './track-team.component.html',
   styleUrls: ['./track-team.component.scss']
 })
-export class TrackTeamComponent {
+export class TrackTeamComponent implements OnInit {
+
+  public allTeams: Team[];
 
   constructor(public nbaService: NbaService) {
+    this.allTeams = [];
+  }
+
+  ngOnInit(): void {
+    this.allTeams = this.nbaService.allTeams;
   }
 
   public trackTeam(teamId: string) {
-    const selectedTeam = this.nbaService.allTeams.find(team => team.id === +teamId);
-    this.nbaService.trackedTeams.push(selectedTeam!);
+    this.nbaService.trackTeam(teamId);
   }
 
   public unTrackTeam(index: number) {
-    this.nbaService.trackedTeams.splice(index, 1);
+    this.nbaService.unTrack(index);
   }
 
-  trackByFn(index: number, team: Team) {
+  public trackByFn(index: number, team: Team) {
     return team.id;
   }
 

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { LoaderService } from "./modules/shared/services/loader.service";
 import { Observable } from "rxjs";
+import { LoaderService } from "./modules/core/services/loader.service";
 
 @Component({
   selector: 'app-root',
