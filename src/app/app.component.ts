@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { LoaderService } from "./modules/shared/services/loader.service";
+import { Observable } from "rxjs";
 
 @Component({
   selector: 'app-root',
@@ -7,9 +8,12 @@ import { LoaderService } from "./modules/shared/services/loader.service";
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'NBA Score Tracking App';
-  isLoading$ = this.loaderService.isLoading$;
+
+  public title: string;
+  public isLoading$: Observable<boolean>;
 
   constructor(private loaderService: LoaderService) {
+    this.title = 'NBA Score Tracking App';
+    this.isLoading$ = this.loaderService.isLoading$;
   }
 }
